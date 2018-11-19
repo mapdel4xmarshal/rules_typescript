@@ -6,9 +6,6 @@ try
   const path = require('path');
   const tmp = require('tmp');
   const child_process = require('child_process');
-  const sys = require('sys');
-  const process = require('process');
-  process.env.CHROME_BIN = require('puppeteer').executablePath()
 
   // Helper function to find a particular namedFile
   // within the webTestMetadata webTestFiles
