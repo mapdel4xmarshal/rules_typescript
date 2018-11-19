@@ -135,9 +135,6 @@ try
               [launcher]: {
                 base: browser,
                 flags: [
-                    '--disable-translate',
-                    '--disable-extensions',
-                    '--disable-web-security',
                     '--ignore-certificate-errors',
                     '--no-sandbox',
                     '--headless'
