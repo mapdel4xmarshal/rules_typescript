@@ -125,7 +125,7 @@ try
 		  
 		  console.log(`browser needed  -------------- ${browser}`);
 		  
-          if (!supportsSandboxing()) {
+          if (supportsSandboxing()) {
             const launcher = 'CustomChromeWithoutSandbox';
             customLaunchers = {
               [launcher]: {
