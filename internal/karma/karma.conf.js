@@ -6,6 +6,8 @@ try
   const path = require('path');
   const tmp = require('tmp');
   const child_process = require('child_process');
+  const process = require('process');
+  process.env.CHROME_BIN = require('puppeteer').executablePath()
 
   // Helper function to find a particular namedFile
   // within the webTestMetadata webTestFiles
@@ -135,15 +137,10 @@ try
                 flags: [
                     '--disable-translate',
                     '--disable-extensions',
-                    '--remote-debugging-port=9223',
                     '--disable-web-security',
                     '--ignore-certificate-errors',
                     '--no-sandbox',
-                    '--headless',
-                    '--disable-gpu',
-                    '--disable-translate',
-                    '--disable-extensions',
-                    '--allow-file-access-from-files'
+                    '--headless'
                 ]
               }
             };
