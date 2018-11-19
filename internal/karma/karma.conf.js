@@ -139,7 +139,7 @@ try
 			
             browsers.push(launcher);
           } else {
-			  console.log(`No sandboxing needed !supportsSandboxing() -------------- ${launcher}`);
+			  console.log(`No sandboxing needed !supportsSandboxing() --------------`);
             browsers.push(browser);
           }
         }
