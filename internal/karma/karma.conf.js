@@ -6,6 +6,7 @@ try
   const path = require('path');
   const tmp = require('tmp');
   const child_process = require('child_process');
+  rocess.env.CHROME_BIN = require('puppeteer').executablePath()
 
   // Helper function to find a particular namedFile
   // within the webTestMetadata webTestFiles
@@ -113,9 +114,11 @@ try
           // When karma is configured to use Chrome it will look for a CHROME_BIN
           // environment variable.
           if (archiveFile) {
-            process.env.CHROME_BIN = extractWebArchive(extractExe, archiveFile, webTestNamedFiles['CHROMIUM']);
+            //process.env.CHROME_BIN = extractWebArchive(extractExe, archiveFile, webTestNamedFiles['CHROMIUM']);
+			process.env.CHROME_BIN = require('puppeteer').executablePath();
           } else {
-            process.env.CHROME_BIN = require.resolve(webTestNamedFiles['CHROMIUM']);
+            //process.env.CHROME_BIN = require.resolve(webTestNamedFiles['CHROMIUM']);
+			process.env.CHROME_BIN = require('puppeteer').executablePath();
           }
 		  
 			console.log(`CHROME BIN PATH -------------- ${process.env.CHROME_BIN}`);
@@ -130,7 +133,19 @@ try
             customLaunchers = {
               [launcher]: {
                 base: browser,
-                flags: ['--no-sandbox']
+                flags: [
+                    '--disable-translate',
+                    '--disable-extensions',
+                    '--remote-debugging-port=9223',
+                    '--disable-web-security',
+                    '--ignore-certificate-errors',
+                    '--no-sandbox',
+                    '--headless',
+                    '--disable-gpu',
+                    '--disable-translate',
+                    '--disable-extensions',
+                    '--allow-file-access-from-files'
+                ]
               }
             };
 			
