@@ -54,11 +54,13 @@ try
   // https://github.com/angular/angular/pull/24906
   function supportsSandboxing() {
     if (process.platform !== 'linux') {
+		console.log(`supportsSandboxing - Process platform : ${process.platform}`);
       return true;
     }
     try {
       const res = child_process
-        .execSync('cat /proc/sys/kernel/unprivileged_userns_clone').toString().trim();
+        .execSync('cat /proc/sys/kernel/unprivileged_userns_clone').toString().trim(); 
+		console.log(`supportsSandboxing - child_process : ${res}`);
       return res === '1';
     } catch (error) { }
 
@@ -72,8 +74,10 @@ try
   // of the browsers attribute passed to ts_web_test_suite
   // We setup the karma configuration based on the values in this object
   if (process.env['WEB_TEST_METADATA']) {
+	  console.log(`WEB_TEST_METADATA--------------`);
     const webTestMetadata = require(process.env['WEB_TEST_METADATA']);
     if (webTestMetadata['environment'] === 'sauce') {
+		console.log(`WEB_TEST_METADATA-------------- ${webTestMetadata['environment']}`);
       // If a sauce labs browser is chosen for the test such as
       // "@io_bazel_rules_webtesting//browsers/sauce:chrome-win10"
       // than the 'environment' will equal 'sauce'.
@@ -95,6 +99,7 @@ try
       };
       browsers.push('sauce');
     } else if (webTestMetadata['environment'] === 'local') {
+		console.log(`WEB_TEST_METADATA [LOCAL]-------------- ${webTestMetadata['environment']}`);
       // When a local chrome or firefox browser is chosen such as
       // "@io_bazel_rules_webtesting//browsers:chromium-local" or
       // "@io_bazel_rules_webtesting//browsers:firefox-local"
@@ -112,7 +117,14 @@ try
           } else {
             process.env.CHROME_BIN = require.resolve(webTestNamedFiles['CHROMIUM']);
           }
+		  
+			console.log(`CHROME BIN PATH -------------- ${process.env.CHROME_BIN}`);
+
+			
           const browser = process.env['DISPLAY'] ? 'Chrome' : 'ChromeHeadless';
+		  
+		  console.log(`browser needed  -------------- ${browser}`);
+		  
           if (!supportsSandboxing()) {
             const launcher = 'CustomChromeWithoutSandbox';
             customLaunchers = {
@@ -121,8 +133,13 @@ try
                 flags: ['--no-sandbox']
               }
             };
+			
+			console.log(`No sandboxing needed (supportsSandboxing()) -------------- ${launcher}`);
+			
+			
             browsers.push(launcher);
           } else {
+			  console.log(`No sandboxing needed !supportsSandboxing() -------------- ${launcher}`);
             browsers.push(browser);
           }
         }
@@ -144,7 +161,7 @@ try
 
   // Fallback to using the system local chrome if no valid browsers have been
   // configured above
-  if (!browsers.length) {
+  if (!browsers.length) { 
     console.warn('No browsers configured. Configuring Karma to use system Chrome.');
     browsers.push(process.env['DISPLAY'] ? 'Chrome': 'ChromeHeadless');
   }
